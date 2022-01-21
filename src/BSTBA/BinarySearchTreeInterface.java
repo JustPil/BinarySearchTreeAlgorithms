@@ -20,4 +20,6 @@ public interface BinarySearchTreeInterface
     Node replacement(Node n);
     Node balance(int start, int end);
     void setRoot(Node n);
+    double fullnessRatio();
+    int optimalHeight();
 }
