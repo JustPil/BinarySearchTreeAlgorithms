@@ -425,16 +425,31 @@ public class BinarySearchTree
         Node node2 = node1;
         if(root.getData() == data)
         {
-            node1 = node1.getLeft();
-            while(node1.getRight() != null)
+            if(root.getLeft() != null)
             {
-                node2 = node1;
-                node1 = node1.getRight();
+                node1 = node1.getLeft();
+                while (node1.getRight() != null)
+                {
+                    node2 = node1;
+                    node1 = node1.getRight();
+                }
+                root.setData(node1.getData());
+                node2.setRight(null);
+                nodeCount--;
+                return true;
             }
-            root.setData(node1.getData());
-            node2.setRight(null);
-            nodeCount--;
-            return true;
+            else if(root.getRight() != null)
+            {
+                setRoot(root.getRight());
+                nodeCount--;
+                return true;
+            }
+            else
+            {
+                root = null;
+                nodeCount--;
+                return true;
+            }
         }
         while(true)
         {
