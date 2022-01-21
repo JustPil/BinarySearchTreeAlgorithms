@@ -21,7 +21,8 @@ public class Main
                     "ONLY CHILD - Counts the number of nodes that have no sibling node\n12 - INORDER - Performs" +
                     " an inorder traversal of the BST\n13 - PREORDER - Performs a preorder traversal of the BST\n14 -" +
                     " POSTORDER - Performs a postorder traversal of the BST\n15 - LEVELORDER - Performs  levelorder " +
-                    "traversal of the BST\n16 - BALANCE - Balances the BST\nX - Terminate\n\nEnter choice: ");
+                    "traversal of the BST\n16 - BALANCE - Balances the BST\n17 - FULLNESS RATIO - Returns the ratio " +
+                    "between the BST's minimum height and it's current height\nX - Terminate\n\nEnter choice: ");
             choice = scn.nextLine();
             if(choice.equals("1"))
             {
@@ -96,6 +97,10 @@ public class Main
             {
                 bst.setRoot(bst.balance(0, bst.size() - 1));
                 System.out.println("The tree has been balanced");
+            }
+            else if(choice.equals("17"))
+            {
+                System.out.println("Fullness ratio is " + bst.fullnessRatio());
             }
             else if(choice.equalsIgnoreCase("X"))
             {
