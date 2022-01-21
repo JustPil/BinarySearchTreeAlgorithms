@@ -6,7 +6,6 @@ public class BinarySearchTree
     private int nodeCount = 0;
     private int[] array;
     private StringBuilder sb;
-    private boolean flag = true;
 
     /**
      * Constructor creates a new BinarySearchTree and sets the root node to null.
@@ -22,7 +21,6 @@ public class BinarySearchTree
      */
     public StringBuilder inOrder()
     {
-        flag = false;
         sb = new StringBuilder();
         array = new int[nodeCount];
         if(root == null)
@@ -61,7 +59,6 @@ public class BinarySearchTree
      */
     public StringBuilder preOrder()
     {
-        flag = true;
         int index = 0;
         sb = new StringBuilder();
         array = new int[nodeCount];
@@ -96,7 +93,6 @@ public class BinarySearchTree
      */
     public StringBuilder postOrder()
     {
-        flag = true;
         sb = new StringBuilder();
         if(root == null)
         {
@@ -139,7 +135,6 @@ public class BinarySearchTree
     public StringBuilder levelOrder()
     {
         int index = 0;
-        flag = true;
         sb = new StringBuilder();
         if(root == null)
         {
@@ -307,17 +302,15 @@ public class BinarySearchTree
             return height;
         }
         QueueInterface<Node> queue = new ArrayListQueue<>();
-        queue.enqueue(root);
-        while(true)
+        Node node = root;
+        queue.enqueue(node);
+        while(!queue.isEmpty())
         {
-            int size = queue.size();
-            if(size == 0)
+            int elemsInQueue = queue.size();
+            while(elemsInQueue > 0)
             {
-                break;
-            }
-            while(size > 0)
-            {
-                Node node = queue.dequeue();
+                node = queue.dequeue();
+                elemsInQueue--;
                 if(node.getLeft() != null)
                 {
                     queue.enqueue(node.getLeft());
@@ -326,9 +319,8 @@ public class BinarySearchTree
                 {
                     queue.enqueue(node.getRight());
                 }
-                height++;
-                size--;
             }
+            height++;
         }
         return height;
     }
@@ -532,10 +524,8 @@ public class BinarySearchTree
         {
             return null;
         }
-        if(flag)
-        {
-            inOrder();
-        }
+
+        inOrder();
         int mid = (start + end) / 2;
         Node node = new Node(array[mid]);
         node.setLeft(balance(start, mid - 1));
@@ -550,5 +540,34 @@ public class BinarySearchTree
     public void setRoot(Node n)
     {
         root = n;
+    }
+
+    /**
+     *  fullnessRatio Calculates the ratio between the BST's minimum, or balanced, height and the BST's current height.
+     * @return The ratio between the minimum and current height of the BST.
+     */
+    public double fullnessRatio()
+    {
+        double fullness = 0.0;
+        if(root == null)
+        {
+            return fullness;
+        }
+        double initialHeight = height();
+        double balanceHeight = optimalHeight();
+        return initialHeight / balanceHeight;
+    }
+
+    /**
+     * optimalHeight Calculates the optimal, or balanced, height of the BST.
+     * @return The optimal height of the BST.
+     */
+    public int optimalHeight()
+    {
+        Node storage = root;
+        root = balance(0, size() - 1);
+        int optimalHeight = height();
+        root = storage;
+        return optimalHeight;
     }
 }
