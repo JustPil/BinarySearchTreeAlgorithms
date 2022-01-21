@@ -524,7 +524,6 @@ public class BinarySearchTree
         {
             return null;
         }
-
         inOrder();
         int mid = (start + end) / 2;
         Node node = new Node(array[mid]);
