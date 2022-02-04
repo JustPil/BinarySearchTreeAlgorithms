@@ -22,7 +22,8 @@ public class Main
                     " an inorder traversal of the BST\n13 - PREORDER - Performs a preorder traversal of the BST\n14 -" +
                     " POSTORDER - Performs a postorder traversal of the BST\n15 - LEVELORDER - Performs  levelorder " +
                     "traversal of the BST\n16 - BALANCE - Balances the BST\n17 - FULLNESS RATIO - Returns the ratio " +
-                    "between the BST's minimum height and it's current height\nX - Terminate\n\nEnter choice: ");
+                    "between the BST's minimum height and it's current height\n18 - BOUNDARY TRAVERSAL - Performs " +
+                    "boundar traversal of the BST\nX - Terminate\n\nEnter choice: ");
             choice = scn.nextLine();
             if(choice.equals("1"))
             {
@@ -79,7 +80,8 @@ public class Main
             }
             else if(choice.equals("12"))
             {
-                System.out.println("Inorder traversal: " + bst.inOrder());
+                System.out.println("Inorder traversal: " +
+                        bst.inOrder());
             }
             else if(choice.equals("13"))
             {
@@ -101,6 +103,10 @@ public class Main
             else if(choice.equals("17"))
             {
                 System.out.println("Fullness ratio is " + bst.fullnessRatio());
+            }
+            else if(choice.equals("18"))
+            {
+                System.out.println("Boundary traversal: " + bst.boundaryOrder());
             }
             else if(choice.equalsIgnoreCase("X"))
             {
