@@ -1,5 +1,8 @@
 package BSTBA;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 public class BinarySearchTree
 {
     private Node root;
@@ -159,6 +162,109 @@ public class BinarySearchTree
             }
         }
         return sb;
+    }
+
+    /**
+     * boundaryOrder A traversal algorithm following the outside border of the BST in counterclockwise order. Calls
+     * separate helper methods for certain boundaries.
+     * @return A StringBuilder containing the boundary order contents of the BST.
+     */
+    public StringBuilder boundaryOrder()
+    {
+        sb = new StringBuilder();
+        if(root == null)
+        {
+            return sb;
+        }
+        sb.append(root.getData());
+        leftBoundTraversal(sb);
+        leafTraversal(sb);
+        rightBoundTraversal(sb);
+        return sb;
+    }
+
+    /**
+     * leftBoundaryTraversal Traverses the left boundary of the BST starting at the node left of root and ending before
+     * the first leaf node of the leftmost path.
+     * @param sb A StringBuilder containing the left boundary contents of the BST.
+     */
+    public void leftBoundTraversal(StringBuilder sb)
+    {
+        if(root.getLeft() == null)
+        {
+            return;
+        }
+        Node node = root.getLeft();
+        while(node != null)
+        {
+            if(node.getLeft() != null && node.getRight() != null)
+            {
+                sb.append(node.getData());
+            }
+            node = node.getLeft() != null ? node.getLeft() : node.getRight();
+        }
+    }
+
+    /**
+     * leafTraversal Traverses the BST from left to right for the purposes of recording all leaf nodes in order, the
+     * 'bottom boundary' of the BST.
+     * @param sb A StringBuilder containing the leaf boundary contents of the BST.
+     */
+    public void leafTraversal(StringBuilder sb)
+    {
+        StackArrayList<Node> stack = new StackArrayList<>();
+        Node node = root;
+        while(true)
+        {
+            if(node != null && node.getLeft() == null && node.getRight() == null)
+            {
+                sb.append(node.getData());
+            }
+            if(node != null)
+            {
+                stack.push(node);
+                node = node.getLeft();
+            }
+            else
+            {
+                if(stack.isEmpty())
+                {
+                    break;
+                }
+                node = stack.peek();
+                stack.pop();
+                node = node.getRight();
+            }
+        }
+    }
+
+    /**
+     * rightBoundTraversal Traverses the right boundary of the BST starting at the node right of root and ending before
+     * the first leaf node of the rightmost path. To keep the ordering counterclockwise a Stack is used to reverse the
+     * traversal ordering when appending to the StringBuilder.
+     * @param sb A StringBuilder containing the right boundary contents of the BST.
+     */
+    public void rightBoundTraversal(StringBuilder sb)
+    {
+        if(root.getRight() == null)
+        {
+            return;
+        }
+        Node node = root.getRight();
+        StackArrayList<Node> stack = new StackArrayList<>();
+        while(node != null)
+        {
+            if(node.getRight() != null && node.getLeft() != null)
+            {
+                stack.push(node);
+            }
+            node = node.getRight() != null ? node.getRight() : node.getLeft();
+        }
+        while(!stack.isEmpty())
+        {
+            sb.append(stack.peek().getData());
+            stack.pop();
+        }
     }
 
     /**
