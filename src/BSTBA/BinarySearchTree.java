@@ -643,7 +643,7 @@ public class BinarySearchTree
             return null;
         }
         inOrder();
-        int mid = (start + end) / 2;
+        int mid = start + (end - start) / 2;
         Node node = new Node(array[mid]);
         node.setLeft(balance(start, mid - 1));
         node.setRight(balance(mid + 1, end));
