@@ -16,7 +16,8 @@ public class BinarySearchTree<T>
     public BinarySearchTree()
     {
         root = null;
-        comp = new Comparator<T>() {
+        comp = new Comparator<T>() 
+        {
             public int compare(T o1, T o2)
             {
                 return ((Comparable)o1).compareTo(o2);
