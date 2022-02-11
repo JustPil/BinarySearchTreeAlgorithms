@@ -1,11 +1,14 @@
 package BSTBA;
 
-public class BinarySearchTree
+import java.util.Comparator;
+
+public class BinarySearchTree<T>
 {
-    private Node root;
+    private Node<T> root;
     private int nodeCount = 0;
-    private int[] array;
+    private T[] array;
     private StringBuilder sb;
+    private Comparator<T> comp;
 
     /**
      * Constructor creates a new BinarySearchTree and sets the root node to null.
@@ -13,6 +16,12 @@ public class BinarySearchTree
     public BinarySearchTree()
     {
         root = null;
+        comp = new Comparator<T>() {
+            public int compare(T o1, T o2)
+            {
+                return ((Comparable)o1).compareTo(o2);
+            }
+        };
     }
 
     /**
@@ -22,14 +31,14 @@ public class BinarySearchTree
     public StringBuilder inOrder()
     {
         sb = new StringBuilder();
-        array = new int[nodeCount];
+        array = (T[])new Object[nodeCount];
         if(root == null)
         {
             return sb;
         }
         int index = 0;
-        StackInterface<Node> stack = new StackArrayList<>();
-        Node node = root;
+        StackInterface<Node<T>> stack = new StackArrayList<>();
+        Node<T> node = root;
         while(true)
         {
             if(node != null)
@@ -61,13 +70,13 @@ public class BinarySearchTree
     {
         int index = 0;
         sb = new StringBuilder();
-        array = new int[nodeCount];
+        array = (T[])new Object[nodeCount];
         if(root == null)
         {
             return sb;
         }
-        StackInterface<Node> stack = new StackArrayList<>();
-        Node node = root;
+        StackInterface<Node<T>> stack = new StackArrayList<>();
+        Node<T> node = root;
         stack.push(node);
         while(!stack.isEmpty())
         {
@@ -99,10 +108,10 @@ public class BinarySearchTree
             return sb;
         }
         int index = 0;
-        array = new int[nodeCount];
-        StackInterface<Node> stack1 = new StackArrayList<>();
-        StackInterface<Node> stack2 = new StackArrayList<>();
-        Node node = root;
+        array = (T[])new Object[nodeCount];
+        StackInterface<Node<T>> stack1 = new StackArrayList<>();
+        StackInterface<Node<T>> stack2 = new StackArrayList<>();
+        Node<T> node = root;
         stack1.push(node);
         while(!stack1.isEmpty())
         {
@@ -140,9 +149,9 @@ public class BinarySearchTree
         {
             return sb;
         }
-        array = new int[nodeCount];
-        QueueInterface<Node> queue = new ArrayListQueue<>();
-        Node node = root;
+        array = (T[])new Object[nodeCount];
+        QueueInterface<Node<T>> queue = new ArrayListQueue<>();
+        Node<T> node = root;
         queue.enqueue(node);
         while(!queue.isEmpty())
         {
@@ -191,7 +200,7 @@ public class BinarySearchTree
         {
             return;
         }
-        Node node = root.getLeft();
+        Node<T> node = root.getLeft();
         while(node != null)
         {
             if(node.getLeft() != null && node.getRight() != null)
@@ -209,8 +218,8 @@ public class BinarySearchTree
      */
     public void leafTraversal(StringBuilder sb)
     {
-        StackArrayList<Node> stack = new StackArrayList<>();
-        Node node = root;
+        StackArrayList<Node<T>> stack = new StackArrayList<>();
+        Node<T> node = root;
         while(true)
         {
             if(node != null && node.getLeft() == null && node.getRight() == null)
@@ -247,8 +256,8 @@ public class BinarySearchTree
         {
             return;
         }
-        Node node = root.getRight();
-        StackArrayList<Node> stack = new StackArrayList<>();
+        Node<T> node = root.getRight();
+        StackArrayList<Node<T>> stack = new StackArrayList<>();
         while(node != null)
         {
             if(node.getRight() != null && node.getLeft() != null)
@@ -268,15 +277,15 @@ public class BinarySearchTree
      * minNode Finds the node holding the smallest data.
      * @return The data held by the node.
      */
-    public int minNode()
+    public T minNode()
     {
         if(isEmpty())
         {
-            return 0;
+            return null;
         }
         else
         {
-            Node node = root;
+            Node<T> node = root;
             while(node.getLeft() != null)
             {
                 node = node.getLeft();
@@ -289,15 +298,15 @@ public class BinarySearchTree
      * maxNode Finds the node holding the largest data.
      * @return The data held by the node.
      */
-    public int maxNode()
+    public T maxNode()
     {
         if(isEmpty())
         {
-            return 0;
+            return null;
         }
         else
         {
-            Node node = root;
+            Node<T> node = root;
             while(node.getRight() != null)
             {
                 node = node.getRight();
@@ -335,11 +344,11 @@ public class BinarySearchTree
         {
             return counter;
         }
-        QueueInterface<Node> queue = new ArrayListQueue<>();
+        QueueInterface<Node<T>> queue = new ArrayListQueue<>();
         queue.enqueue(root);
         while(!queue.isEmpty())
         {
-            Node node = queue.dequeue();
+            Node<T> node = queue.dequeue();
             if(node.getLeft() == null && node.getRight() == null)
             {
                 counter++;
@@ -363,7 +372,7 @@ public class BinarySearchTree
     public int onlyChild()
     {
         int counter = 0;
-        QueueInterface<Node> queue = new ArrayListQueue<>();
+        QueueInterface<Node<T>> queue = new ArrayListQueue<>();
         if(root == null)
         {
             return counter;
@@ -371,7 +380,7 @@ public class BinarySearchTree
         queue.enqueue(root);
         while(!queue.isEmpty())
         {
-            Node node = queue.dequeue();
+            Node<T> node = queue.dequeue();
             if((node.getLeft() == null && node.getRight() != null) || (node.getLeft() != null && node.getRight() == null))
             {
                 counter++;
@@ -404,8 +413,8 @@ public class BinarySearchTree
         {
             return height;
         }
-        QueueInterface<Node> queue = new ArrayListQueue<>();
-        Node node = root;
+        QueueInterface<Node<T>> queue = new ArrayListQueue<>();
+        Node<T> node = root;
         queue.enqueue(node);
         while(!queue.isEmpty())
         {
@@ -442,14 +451,14 @@ public class BinarySearchTree
      * @param data The data to search for.
      * @return True if the data was found, false otherwise.
      */
-    public boolean search(int data)
+    public boolean search(T data)
     {
-        QueueInterface<Node> queue = new ArrayListQueue<>();
+        QueueInterface<Node<T>> queue = new ArrayListQueue<>();
         queue.enqueue(root);
         while(!queue.isEmpty())
         {
-            Node node = queue.dequeue();
-            if(node.getData() == data)
+            Node<T> node = queue.dequeue();
+            if(comp.compare(node.getData(), data) == 0)
             {
                 return true;
             }
@@ -475,37 +484,37 @@ public class BinarySearchTree
      * @param data The data for the new node to hold.
      * @return True if the insertion was successful, false otherwise.
      */
-    public boolean insert(int data)
+    public boolean insert(T data)
     {
         if(root == null)
         {
-            Node node = new Node(data);
+            Node<T> node = new Node<>(data);
             root = node;
             nodeCount++;
             return true;
         }
         else
         {
-            Node node = root;
+            Node<T> node = root;
             while(true)
             {
-                if(data <= node.getData() && node.getLeft() != null)
+                if(comp.compare(data, node.getData()) <= 0 && node.getLeft() != null)
                 {
                     node = node.getLeft();
                 }
-                else if(data > node.getData() && node.getRight() != null)
+                else if(comp.compare(data, node.getData()) > 0 && node.getRight() != null)
                 {
                     node = node.getRight();
                 }
-                else if(data <= node.getData() && node.getLeft() == null)
+                else if(comp.compare(data, node.getData()) <= 0 && node.getLeft() == null)
                 {
-                    node.setLeft(new Node(data));
+                    node.setLeft(new Node<>(data));
                     nodeCount++;
                     return true;
                 }
-                else if(data > node.getData() && node.getRight() == null)
+                else if(comp.compare(data, node.getData()) > 0 && node.getRight() == null)
                 {
-                    node.setRight(new Node(data));
+                    node.setRight(new Node<>(data));
                     nodeCount++;
                     return true;
                 }
@@ -518,15 +527,15 @@ public class BinarySearchTree
      * @param data The data held by the node targeted for removal.
      * @return True if the removal was successful, false otherwise.
      */
-    public boolean remove(int data)
+    public boolean remove(T data)
     {
         if(isEmpty())
         {
             return false;
         }
-        Node node1 = root;
-        Node node2 = node1;
-        if(root.getData() == data)
+        Node<T> node1 = root;
+        Node<T> node2 = node1;
+        if(root.getData().equals(data))
         {
             if(root.getLeft() != null)
             {
@@ -556,12 +565,12 @@ public class BinarySearchTree
         }
         while(true)
         {
-            if(node1.getData() > data)
+            if(comp.compare(node1.getData(), data) > 0)
             {
                 node2 = node1;
                 node1 = node1.getLeft();
             }
-            else if(node1.getData() < data)
+            else if(comp.compare(node1.getData(), data) < 0)
             {
                 node2 = node1;
                 node1 = node1.getRight();
@@ -594,7 +603,7 @@ public class BinarySearchTree
                 }
                 else
                 {
-                    Node replace = replacement(node1);
+                    Node<T> replace = replacement(node1);
                     node1.setData(replace.getData());
                 }
                 nodeCount--;
@@ -609,10 +618,10 @@ public class BinarySearchTree
      * @param n The node intended for removal.
      * @return The replacement node.
      */
-    private Node replacement(Node n)
+    private Node<T> replacement(Node<T> n)
     {
-        Node replace = n;
-        Node deleter = replace;
+        Node<T> replace = n;
+        Node<T> deleter = replace;
         if(n.getLeft() != null)
         {
             deleter = replace;
@@ -623,7 +632,7 @@ public class BinarySearchTree
             deleter = replace;
             replace = replace.getRight();
         }
-        Node copy = replace;
+        Node<T> copy = replace;
         deleter.setRight(null);
         return copy;
     }
@@ -636,7 +645,7 @@ public class BinarySearchTree
      * @param end The end index of the array.
      * @return The node of the new BST to assign to the root node.
      */
-    public Node balance(int start, int end)
+    public Node<T> balance(int start, int end)
     {
         if(start > end)
         {
@@ -644,7 +653,7 @@ public class BinarySearchTree
         }
         inOrder();
         int mid = start + (end - start) / 2;
-        Node node = new Node(array[mid]);
+        Node<T> node = new Node(array[mid]);
         node.setLeft(balance(start, mid - 1));
         node.setRight(balance(mid + 1, end));
         return node;
@@ -654,7 +663,7 @@ public class BinarySearchTree
      * setRoot sets the root node to a new BST node.
      * @param n The new BST node for root to access.
      */
-    public void setRoot(Node n)
+    public void setRoot(Node<T> n)
     {
         root = n;
     }
@@ -681,7 +690,7 @@ public class BinarySearchTree
      */
     public int optimalHeight()
     {
-        Node storage = root;
+        Node<T> storage = root;
         root = balance(0, size() - 1);
         int optimalHeight = height();
         root = storage;
