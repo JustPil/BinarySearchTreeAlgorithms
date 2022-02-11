@@ -8,7 +8,7 @@ public class Main
     public static void main(String[] args)
     {
         Scanner scn = new Scanner(System.in);
-        BinarySearchTree bst = new BinarySearchTree();
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
         String choice = "";
         while(!choice.equalsIgnoreCase("X"))
         {
