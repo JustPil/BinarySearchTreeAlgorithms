@@ -2,7 +2,7 @@ package BSTBA;
 
 import java.util.Comparator;
 
-public class BinarySearchTree<T>
+public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
 {
     private Node<T> root;
     private int nodeCount = 0;
