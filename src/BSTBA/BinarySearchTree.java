@@ -16,7 +16,7 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
     public BinarySearchTree()
     {
         root = null;
-        comp = new Comparator<T>() 
+        comp = new Comparator<T>()
         {
             public int compare(T o1, T o2)
             {
@@ -454,27 +454,24 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      */
     public boolean search(T data)
     {
-        QueueInterface<Node<T>> queue = new ArrayListQueue<>();
-        queue.enqueue(root);
-        while(!queue.isEmpty())
+        if(root == null)
         {
-            Node<T> node = queue.dequeue();
-            if(comp.compare(node.getData(), data) == 0)
+            return false;
+        }
+        Node<T> node = root;
+        while(node != null)
+        {
+            if(comp.compare(data, node.getData()) == 0)
             {
                 return true;
             }
-            else if(node.getLeft() != null && node.getRight() != null)
+            else if(comp.compare(data, node.getData()) < 0)
             {
-                queue.enqueue(node.getLeft());
-                queue.enqueue(node.getRight());
+                node = node.getLeft();
             }
-            else if(node.getLeft() == null && node.getRight() != null)
+            else if(comp.compare(data, node.getData()) > 0)
             {
-                queue.enqueue(node.getRight());
-            }
-            else if(node.getLeft() != null && node.getRight() == null)
-            {
-                queue.enqueue(node.getLeft());
+                node = node.getRight();
             }
         }
         return false;
@@ -494,31 +491,28 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
             nodeCount++;
             return true;
         }
-        else
+        Node<T> node = root;
+        while(true)
         {
-            Node<T> node = root;
-            while(true)
+            if(comp.compare(data, node.getData()) <= 0 && node.getLeft() != null)
             {
-                if(comp.compare(data, node.getData()) <= 0 && node.getLeft() != null)
-                {
-                    node = node.getLeft();
-                }
-                else if(comp.compare(data, node.getData()) > 0 && node.getRight() != null)
-                {
-                    node = node.getRight();
-                }
-                else if(comp.compare(data, node.getData()) <= 0 && node.getLeft() == null)
-                {
-                    node.setLeft(new Node<>(data));
-                    nodeCount++;
-                    return true;
-                }
-                else if(comp.compare(data, node.getData()) > 0 && node.getRight() == null)
-                {
-                    node.setRight(new Node<>(data));
-                    nodeCount++;
-                    return true;
-                }
+                node = node.getLeft();
+            }
+            else if(comp.compare(data, node.getData()) > 0 && node.getRight() != null)
+            {
+                node = node.getRight();
+            }
+            else if(comp.compare(data, node.getData()) <= 0 && node.getLeft() == null)
+            {
+                node.setLeft(new Node<>(data));
+                nodeCount++;
+                return true;
+            }
+            else if(comp.compare(data, node.getData()) > 0 && node.getRight() == null)
+            {
+                node.setRight(new Node<>(data));
+                nodeCount++;
+                return true;
             }
         }
     }
