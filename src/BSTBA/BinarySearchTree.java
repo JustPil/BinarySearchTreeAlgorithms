@@ -1,9 +1,11 @@
 package BSTBA;
 
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
-public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
-{
+public class BinarySearchTree<T> implements BinarySearchTreeInterface<T> {
     private Node<T> root;
     private int nodeCount = 0;
     private T[] array;
@@ -13,13 +15,11 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
     /**
      * Constructor creates a new BinarySearchTree and sets the root node to null.
      */
-    public BinarySearchTree()
-    {
+    public BinarySearchTree() {
         root = null;
-        comp = new Comparator<T>()
-        {
-            public int compare(T o1, T o2)
-            {
+        comp = new Comparator<T>() {
+            @Override
+            public int compare(T o1, T o2) {
                 return ((Comparable)o1).compareTo(o2);
             }
         };
@@ -29,32 +29,24 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * inOrder Performs an inorder traversal algorithm.
      * @return A StringBuilder containing the inorder contents of the BST nodes.
      */
-    public StringBuilder inOrder()
-    {
+    public StringBuilder inOrder() {
         sb = new StringBuilder();
         array = (T[])new Object[nodeCount];
-        if(root == null)
-        {
+        if(root == null) {
             return sb;
         }
         int index = 0;
-        StackInterface<Node<T>> stack = new StackArrayList<>();
+        Stack<Node<T>> stack = new Stack<>();
         Node<T> node = root;
-        while(true)
-        {
-            if(node != null)
-            {
+        while(true) {
+            if(node != null) {
                 stack.push(node);
                 node = node.getLeft();
-            }
-            else
-            {
-                if(stack.isEmpty())
-                {
+            } else {
+                if(stack.isEmpty()) {
                     break;
                 }
-                node = stack.peek();
-                stack.pop();
+                node = stack.pop();
                 sb.append(node.getData());
                 array[index++] = node.getData();
                 node = node.getRight();
@@ -67,30 +59,24 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * preOrder Performs a preorder traversal algorithm.
      * @return A StringBuilder containing the preorder contents of the BST nodes.
      */
-    public StringBuilder preOrder()
-    {
+    public StringBuilder preOrder() {
         int index = 0;
         sb = new StringBuilder();
         array = (T[])new Object[nodeCount];
-        if(root == null)
-        {
+        if(root == null) {
             return sb;
         }
-        StackInterface<Node<T>> stack = new StackArrayList<>();
+        Stack<Node<T>> stack = new Stack<>();
         Node<T> node = root;
         stack.push(node);
-        while(!stack.isEmpty())
-        {
-            node = stack.peek();
-            stack.pop();
+        while(!stack.isEmpty()) {
+            node = stack.pop();
             sb.append(node.getData());
             array[index++] = node.getData();
-            if(node.getRight() != null)
-            {
+            if(node.getRight() != null) {
                 stack.push(node.getRight());
             }
-            if(node.getLeft() != null)
-            {
+            if(node.getLeft() != null) {
                 stack.push(node.getLeft());
             }
         }
@@ -101,37 +87,29 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * postOrder Performs a postorder traversal algorithm.
      * @return A StringBuilder containing the postorder contents of the BST nodes.
      */
-    public StringBuilder postOrder()
-    {
+    public StringBuilder postOrder() {
         sb = new StringBuilder();
-        if(root == null)
-        {
+        if(root == null) {
             return sb;
         }
         int index = 0;
         array = (T[])new Object[nodeCount];
-        StackInterface<Node<T>> stack1 = new StackArrayList<>();
-        StackInterface<Node<T>> stack2 = new StackArrayList<>();
+        Stack<Node<T>> stack1 = new Stack<>();
+        Stack<Node<T>> stack2 = new Stack<>();
         Node<T> node = root;
         stack1.push(node);
-        while(!stack1.isEmpty())
-        {
+        while(!stack1.isEmpty()) {
             node = stack1.peek();
-            stack2.push(stack1.peek());
-            stack1.pop();
-            if(node.getLeft() != null)
-            {
+            stack2.push(stack1.pop());
+            if(node.getLeft() != null) {
                 stack1.push(node.getLeft());
             }
-            if(node.getRight() != null)
-            {
+            if(node.getRight() != null) {
                 stack1.push(node.getRight());
             }
         }
-        while(!stack2.isEmpty())
-        {
-            node = stack2.peek();
-            stack2.pop();
+        while(!stack2.isEmpty()) {
+            node = stack2.pop();
             sb.append(node.getData());
             array[index++] = node.getData();
         }
@@ -142,30 +120,25 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * levelOrder Performs a levelorder traversal algorithm.
      * @return A StringBuilder containing the levelorder contents of the BST nodes.
      */
-    public StringBuilder levelOrder()
-    {
+    public StringBuilder levelOrder() {
         int index = 0;
         sb = new StringBuilder();
-        if(root == null)
-        {
+        if(root == null) {
             return sb;
         }
         array = (T[])new Object[nodeCount];
-        QueueInterface<Node<T>> queue = new ArrayListQueue<>();
+        Queue<Node<T>> queue = new LinkedList<>();
         Node<T> node = root;
-        queue.enqueue(node);
-        while(!queue.isEmpty())
-        {
-            node = queue.dequeue();
+        queue.add(node);
+        while(!queue.isEmpty()) {
+            node = queue.remove();
             sb.append(node.getData());
             array[index++] = node.getData();
-            if(node.getLeft() != null)
-            {
-                queue.enqueue(node.getLeft());
+            if(node.getLeft() != null) {
+                queue.add(node.getLeft());
             }
-            if(node.getRight() != null)
-            {
-                queue.enqueue(node.getRight());
+            if(node.getRight() != null) {
+                queue.add(node.getRight());
             }
         }
         return sb;
@@ -176,11 +149,9 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * separate helper methods for certain boundaries.
      * @return A StringBuilder containing the boundary order contents of the BST.
      */
-    public StringBuilder boundaryOrder()
-    {
+    public StringBuilder boundaryOrder() {
         sb = new StringBuilder();
-        if(root == null)
-        {
+        if(root == null) {
             return sb;
         }
         sb.append(root.getData());
@@ -195,17 +166,13 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * the first leaf node of the leftmost path.
      * @param sb A StringBuilder containing the left boundary contents of the BST.
      */
-    public void leftBoundTraversal(StringBuilder sb)
-    {
-        if(root.getLeft() == null)
-        {
+    public void leftBoundTraversal(StringBuilder sb) {
+        if(root.getLeft() == null) {
             return;
         }
         Node<T> node = root.getLeft();
-        while(node != null)
-        {
-            if(node.getLeft() != null && node.getRight() != null)
-            {
+        while(node != null) {
+            if(node.getLeft() != null && node.getRight() != null) {
                 sb.append(node.getData());
             }
             node = node.getLeft() != null ? node.getLeft() : node.getRight();
@@ -219,27 +186,20 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      */
     public void leafTraversal(StringBuilder sb)
     {
-        StackArrayList<Node<T>> stack = new StackArrayList<>();
+        Stack<Node<T>> stack = new Stack<>();
         Node<T> node = root;
-        while(true)
-        {
-            if(node != null && node.getLeft() == null && node.getRight() == null)
-            {
+        while(true) {
+            if(node != null && node.getLeft() == null && node.getRight() == null) {
                 sb.append(node.getData());
             }
-            if(node != null)
-            {
+            if(node != null) {
                 stack.push(node);
                 node = node.getLeft();
-            }
-            else
-            {
-                if(stack.isEmpty())
-                {
+            } else {
+                if(stack.isEmpty()) {
                     break;
                 }
-                node = stack.peek();
-                stack.pop();
+                node = stack.pop();
                 node = node.getRight();
             }
         }
@@ -251,26 +211,20 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * traversal ordering when appending to the StringBuilder.
      * @param sb A StringBuilder containing the right boundary contents of the BST.
      */
-    public void rightBoundTraversal(StringBuilder sb)
-    {
-        if(root.getRight() == null)
-        {
+    public void rightBoundTraversal(StringBuilder sb) {
+        if(root.getRight() == null) {
             return;
         }
         Node<T> node = root.getRight();
-        StackArrayList<Node<T>> stack = new StackArrayList<>();
-        while(node != null)
-        {
-            if(node.getRight() != null && node.getLeft() != null)
-            {
+        Stack<Node<T>> stack = new Stack<>();
+        while(node != null) {
+            if(node.getRight() != null && node.getLeft() != null) {
                 stack.push(node);
             }
             node = node.getRight() != null ? node.getRight() : node.getLeft();
         }
-        while(!stack.isEmpty())
-        {
-            sb.append(stack.peek().getData());
-            stack.pop();
+        while(!stack.isEmpty()) {
+            sb.append(stack.pop().getData());
         }
     }
 
@@ -278,17 +232,12 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * minNode Finds the node holding the smallest data.
      * @return The data held by the node.
      */
-    public T minNode()
-    {
-        if(isEmpty())
-        {
+    public T minNode() {
+        if(isEmpty()) {
             return null;
-        }
-        else
-        {
+        } else {
             Node<T> node = root;
-            while(node.getLeft() != null)
-            {
+            while(node.getLeft() != null) {
                 node = node.getLeft();
             }
             return node.getData();
@@ -299,17 +248,12 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * maxNode Finds the node holding the largest data.
      * @return The data held by the node.
      */
-    public T maxNode()
-    {
-        if(isEmpty())
-        {
+    public T maxNode() {
+        if(isEmpty()) {
             return null;
-        }
-        else
-        {
+        } else {
             Node<T> node = root;
-            while(node.getRight() != null)
-            {
+            while(node.getRight() != null) {
                 node = node.getRight();
             }
             return node.getData();
@@ -320,8 +264,7 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * isEmpty Reports if the BST is empty.
      * @return Whether the root node is null or not null.
      */
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return root == null;
     }
 
@@ -329,8 +272,7 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * isFull Reports if the BST is full.
      * @return False, a BST has no set limit.
      */
-    public boolean isFull()
-    {
+    public boolean isFull() {
         return false;
     }
 
@@ -338,29 +280,23 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * leafCounter Counts the number of leaf nodes in the BST.
      * @return The sum of leaf Nodes in the BST.
      */
-    public int leafCounter()
-    {
+    public int leafCounter() {
         int counter = 0;
-        if(root == null)
-        {
+        if(root == null) {
             return counter;
         }
-        QueueInterface<Node<T>> queue = new ArrayListQueue<>();
-        queue.enqueue(root);
-        while(!queue.isEmpty())
-        {
-            Node<T> node = queue.dequeue();
-            if(node.getLeft() == null && node.getRight() == null)
-            {
+        Queue<Node<T>> queue = new LinkedList<>();
+        queue.add(root);
+        while(!queue.isEmpty()) {
+            Node<T> node = queue.remove();
+            if(node.getLeft() == null && node.getRight() == null) {
                 counter++;
             }
-            if(node.getLeft() != null)
-            {
-                queue.enqueue(node.getLeft());
+            if(node.getLeft() != null) {
+                queue.add(node.getLeft());
             }
-            if(node.getRight() != null)
-            {
-                queue.enqueue(node.getRight());
+            if(node.getRight() != null) {
+                queue.add(node.getRight());
             }
         }
         return counter;
@@ -370,34 +306,28 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * onlyChild Counts the number of nodes that do not have a sibling to a parent node.
      * @return The sum of the nodes that have no sibling.
      */
-    public int onlyChild()
-    {
+    public int onlyChild() {
         int counter = 0;
-        QueueInterface<Node<T>> queue = new ArrayListQueue<>();
-        if(root == null)
-        {
+        Queue<Node<T>> queue = new LinkedList<>();
+        if(root == null) {
             return counter;
         }
-        queue.enqueue(root);
+        queue.add(root);
         while(!queue.isEmpty())
         {
-            Node<T> node = queue.dequeue();
-            if((node.getLeft() == null && node.getRight() != null) || (node.getLeft() != null && node.getRight() == null))
-            {
+            Node<T> node = queue.remove();
+            if((node.getLeft() == null && node.getRight() != null) || (node.getLeft() != null && node.getRight() == null)) {
                 counter++;
             }
-            if(node.getLeft() == null && node.getRight() != null)
-            {
-                queue.enqueue(node.getRight());
+            if(node.getLeft() == null && node.getRight() != null) {
+                queue.add(node.getRight());
             }
-            if(node.getLeft() != null && node.getRight() == null)
-            {
-                queue.enqueue(node.getLeft());
+            if(node.getLeft() != null && node.getRight() == null) {
+                queue.add(node.getLeft());
             }
-            if(node.getRight() != null && node.getLeft() != null)
-            {
-                queue.enqueue(node.getLeft());
-                queue.enqueue(node.getRight());
+            if(node.getRight() != null && node.getLeft() != null) {
+                queue.add(node.getLeft());
+                queue.add(node.getRight());
             }
         }
         return counter;
@@ -407,30 +337,24 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * height Reports the height of the BST.
      * @return The height of the BST.
      */
-    public int height()
-    {
+    public int height() {
         int height = 0;
-        if(root == null)
-        {
+        if(root == null) {
             return height;
         }
-        QueueInterface<Node<T>> queue = new ArrayListQueue<>();
+        Queue<Node<T>> queue = new LinkedList<>();
         Node<T> node = root;
-        queue.enqueue(node);
-        while(!queue.isEmpty())
-        {
+        queue.add(node);
+        while(!queue.isEmpty()) {
             int elemsInQueue = queue.size();
-            while(elemsInQueue > 0)
-            {
-                node = queue.dequeue();
+            while(elemsInQueue > 0) {
+                node = queue.remove();
                 elemsInQueue--;
-                if(node.getLeft() != null)
-                {
-                    queue.enqueue(node.getLeft());
+                if(node.getLeft() != null) {
+                    queue.add(node.getLeft());
                 }
-                if(node.getRight() != null)
-                {
-                    queue.enqueue(node.getRight());
+                if(node.getRight() != null) {
+                    queue.add(node.getRight());
                 }
             }
             height++;
@@ -442,8 +366,7 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * size Reports the total nodes in the BST.
      * @return The count of all nodes in the BST.
      */
-    public int size()
-    {
+    public int size() {
         return nodeCount;
     }
 
@@ -452,25 +375,17 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * @param data The data to search for.
      * @return True if the data was found, false otherwise.
      */
-    public boolean search(T data)
-    {
-        if(root == null)
-        {
+    public boolean search(T data) {
+        if(root == null) {
             return false;
         }
         Node<T> node = root;
-        while(node != null)
-        {
-            if(comp.compare(data, node.getData()) == 0)
-            {
+        while(node != null) {
+            if(comp.compare(data, node.getData()) == 0) {
                 return true;
-            }
-            else if(comp.compare(data, node.getData()) < 0)
-            {
+            } else if(comp.compare(data, node.getData()) < 0) {
                 node = node.getLeft();
-            }
-            else if(comp.compare(data, node.getData()) > 0)
-            {
+            } else if(comp.compare(data, node.getData()) > 0) {
                 node = node.getRight();
             }
         }
@@ -482,34 +397,24 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * @param data The data for the new node to hold.
      * @return True if the insertion was successful, false otherwise.
      */
-    public boolean insert(T data)
-    {
-        if(root == null)
-        {
+    public boolean insert(T data) {
+        if(root == null) {
             Node<T> node = new Node<>(data);
             root = node;
             nodeCount++;
             return true;
         }
         Node<T> node = root;
-        while(true)
-        {
-            if(comp.compare(data, node.getData()) <= 0 && node.getLeft() != null)
-            {
+        while(true) {
+            if(comp.compare(data, node.getData()) <= 0 && node.getLeft() != null) {
                 node = node.getLeft();
-            }
-            else if(comp.compare(data, node.getData()) > 0 && node.getRight() != null)
-            {
+            } else if(comp.compare(data, node.getData()) > 0 && node.getRight() != null) {
                 node = node.getRight();
-            }
-            else if(comp.compare(data, node.getData()) <= 0 && node.getLeft() == null)
-            {
+            } else if(comp.compare(data, node.getData()) <= 0 && node.getLeft() == null) {
                 node.setLeft(new Node<>(data));
                 nodeCount++;
                 return true;
-            }
-            else if(comp.compare(data, node.getData()) > 0 && node.getRight() == null)
-            {
+            } else if(comp.compare(data, node.getData()) > 0 && node.getRight() == null) {
                 node.setRight(new Node<>(data));
                 nodeCount++;
                 return true;
@@ -522,21 +427,16 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * @param data The data held by the node targeted for removal.
      * @return True if the removal was successful, false otherwise.
      */
-    public boolean remove(T data)
-    {
-        if(isEmpty())
-        {
+    public boolean remove(T data) {
+        if(isEmpty()) {
             return false;
         }
         Node<T> node1 = root;
         Node<T> node2 = node1;
-        if(root.getData().equals(data))
-        {
-            if(root.getLeft() != null)
-            {
+        if(root.getData().equals(data)) {
+            if(root.getLeft() != null) {
                 node1 = node1.getLeft();
-                while (node1.getRight() != null)
-                {
+                while (node1.getRight() != null) {
                     node2 = node1;
                     node1 = node1.getRight();
                 }
@@ -544,60 +444,37 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
                 node2.setRight(null);
                 nodeCount--;
                 return true;
-            }
-            else if(root.getRight() != null)
-            {
+            } else if(root.getRight() != null) {
                 setRoot(root.getRight());
                 nodeCount--;
                 return true;
-            }
-            else
-            {
+            } else {
                 root = null;
                 nodeCount--;
                 return true;
             }
         }
-        while(true)
-        {
-            if(comp.compare(node1.getData(), data) > 0)
-            {
+        while(true) {
+            if(comp.compare(node1.getData(), data) > 0) {
                 node2 = node1;
                 node1 = node1.getLeft();
-            }
-            else if(comp.compare(node1.getData(), data) < 0)
-            {
+            } else if(comp.compare(node1.getData(), data) < 0) {
                 node2 = node1;
                 node1 = node1.getRight();
-            }
-            else
-            {
-                if(node1.getRight() == null && node1.getLeft() == null && node2.getRight() == node1)
-                {
+            } else {
+                if(node1.getRight() == null && node1.getLeft() == null && node2.getRight() == node1) {
                     node2.setRight(null);
-                }
-                else if(node1.getRight() == null && node1.getLeft() == null && node2.getLeft() == node1)
-                {
+                } else if(node1.getRight() == null && node1.getLeft() == null && node2.getLeft() == node1) {
                     node2.setLeft(null);
-                }
-                else if(node1.getRight() == null && node1.getLeft() != null && node2.getRight() == node1)
-                {
+                } else if(node1.getRight() == null && node1.getLeft() != null && node2.getRight() == node1) {
                     node2.setRight(node1.getLeft());
-                }
-                else if(node1.getRight() == null && node1.getLeft() != null && node2.getLeft() == node1)
-                {
+                } else if(node1.getRight() == null && node1.getLeft() != null && node2.getLeft() == node1) {
                     node2.setLeft(node1.getLeft());
-                }
-                else if(node1.getRight() != null && node1.getLeft() == null && node2.getRight() == node1)
-                {
+                } else if(node1.getRight() != null && node1.getLeft() == null && node2.getRight() == node1) {
                     node2.setRight(node1.getRight());
-                }
-                else if(node1.getRight() != null && node1.getLeft() == null && node2.getLeft() == node1)
-                {
+                } else if(node1.getRight() != null && node1.getLeft() == null && node2.getLeft() == node1) {
                     node2.setLeft(node1.getRight());
-                }
-                else
-                {
+                } else {
                     Node<T> replace = replacement(node1);
                     node1.setData(replace.getData());
                 }
@@ -613,17 +490,14 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * @param n The node intended for removal.
      * @return The replacement node.
      */
-    private Node<T> replacement(Node<T> n)
-    {
+    private Node<T> replacement(Node<T> n) {
         Node<T> replace = n;
         Node<T> deleter = replace;
-        if(n.getLeft() != null)
-        {
+        if(n.getLeft() != null) {
             deleter = replace;
             replace = replace.getLeft();
         }
-        while(replace.getRight() != null)
-        {
+        while(replace.getRight() != null) {
             deleter = replace;
             replace = replace.getRight();
         }
@@ -640,10 +514,8 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * @param end The end index of the array.
      * @return The node of the new BST to assign to the root node.
      */
-    public Node<T> balance(int start, int end)
-    {
-        if(start > end)
-        {
+    public Node<T> balance(int start, int end) {
+        if(start > end) {
             return null;
         }
         inOrder();
@@ -658,8 +530,7 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * setRoot sets the root node to a new BST node.
      * @param n The new BST node for root to access.
      */
-    public void setRoot(Node<T> n)
-    {
+    public void setRoot(Node<T> n) {
         root = n;
     }
 
@@ -667,11 +538,9 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      *  fullnessRatio Calculates the ratio between the BST's minimum, or balanced, height and the BST's current height.
      * @return The ratio between the minimum and current height of the BST.
      */
-    public double fullnessRatio()
-    {
+    public double fullnessRatio() {
         double fullness = 0.0;
-        if(root == null)
-        {
+        if(root == null) {
             return fullness;
         }
         double initialHeight = height();
@@ -683,8 +552,7 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T>
      * optimalHeight Calculates the optimal, or balanced, height of the BST.
      * @return The optimal height of the BST.
      */
-    public int optimalHeight()
-    {
+    public int optimalHeight() {
         Node<T> storage = root;
         root = balance(0, size() - 1);
         int optimalHeight = height();
