@@ -166,7 +166,7 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T> {
      * the first leaf node of the leftmost path.
      * @param sb A StringBuilder containing the left boundary contents of the BST.
      */
-    public void leftBoundTraversal(StringBuilder sb) {
+    private void leftBoundTraversal(StringBuilder sb) {
         if(root.getLeft() == null) {
             return;
         }
@@ -184,7 +184,7 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T> {
      * 'bottom boundary' of the BST.
      * @param sb A StringBuilder containing the leaf boundary contents of the BST.
      */
-    public void leafTraversal(StringBuilder sb)
+    private void leafTraversal(StringBuilder sb)
     {
         Stack<Node<T>> stack = new Stack<>();
         Node<T> node = root;
@@ -211,7 +211,7 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T> {
      * traversal ordering when appending to the StringBuilder.
      * @param sb A StringBuilder containing the right boundary contents of the BST.
      */
-    public void rightBoundTraversal(StringBuilder sb) {
+    private void rightBoundTraversal(StringBuilder sb) {
         if(root.getRight() == null) {
             return;
         }
