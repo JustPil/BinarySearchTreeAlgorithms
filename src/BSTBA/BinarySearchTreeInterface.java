@@ -1,7 +1,6 @@
 package BSTBA;
 
-public interface BinarySearchTreeInterface<T>
-{
+public interface BinarySearchTreeInterface<T> {
     T minNode();
     T maxNode();
     boolean isFull();
