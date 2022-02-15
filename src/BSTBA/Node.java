@@ -1,17 +1,15 @@
 package BSTBA;
 
-public class Node
-{
-    private int data;
-    private Node left;
-    private Node right;
+public class Node<T> {
+    private T data;
+    private Node<T> left;
+    private Node<T> right;
 
     /**
      * Constructor sets a node's data to the value passed in, and the right left references to null.
      * @param d The data for the node to hold.
      */
-    public Node(int d)
-    {
+    public Node(T d) {
         data = d;
         left = right = null;
     }
@@ -20,8 +18,7 @@ public class Node
      * setData Sets the node's data to the value passed in.
      * @param d the data to be held by the node.
      */
-    public void setData(int d)
-    {
+    public void setData(T d) {
         data = d;
     }
 
@@ -29,8 +26,7 @@ public class Node
      * getData Returns the data held by the node.
      * @return The data held by the node.
      */
-    public int getData()
-    {
+    public T getData() {
         return data;
     }
 
@@ -38,8 +34,7 @@ public class Node
      * setLeft Sets the left node reference to the node passed in.
      * @param l The node to be set as the left reference.
      */
-    public void setLeft(Node l)
-    {
+    public void setLeft(Node<T> l) {
         left = l;
     }
 
@@ -47,8 +42,7 @@ public class Node
      * setRight Sets the right node reference to the node passed in.
      * @param r The node to be set as the right reference.
      */
-    public void setRight(Node r)
-    {
+    public void setRight(Node<T> r) {
         right = r;
     }
 
@@ -56,8 +50,7 @@ public class Node
      * getLeft Returns the left node reference.
      * @return The left node referenced.
      */
-    public Node getLeft()
-    {
+    public Node<T> getLeft() {
         return left;
     }
 
@@ -65,8 +58,7 @@ public class Node
      * getRight Returns the right node reference.
      * @return The right node referenced.
      */
-    public Node getRight()
-    {
+    public Node<T> getRight() {
         return right;
     }
 }
