@@ -5,7 +5,7 @@ Binary Search Tree ADT that supports addition, removal, and searching of nodes, 
 
 Design
 
-Implemented a balancing algorithm, saving nodes "in order" to an array and recursively accessing middle indices for balancing branches.
+Implemented a balancing algorithm, saving nodes "in order" to an array and iteratively accessing middle indices with respect to a changing start and end array index for balancing branches.
 
 Designed iterative Inorder, Preorder, Postorder, Levelorder, Boundary order tree traversal algorithms using Stack and Queue.
 
