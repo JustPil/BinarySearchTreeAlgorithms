@@ -71,8 +71,7 @@ public class Main {
             } else if (choice.equals("11")) {
                 System.out.println("Number of only child nodes: " + bst.onlyChild());
             } else if (choice.equals("12")) {
-                System.out.println("Inorder traversal: " +
-                        bst.inOrder());
+                System.out.println("Inorder traversal: " + bst.inOrder());
             } else if (choice.equals("13")) {
                 System.out.println("Preorder traversal: " + bst.preOrder());
             } else if (choice.equals("14")) {
@@ -80,7 +79,7 @@ public class Main {
             } else if (choice.equals("15")) {
                 System.out.println("Levelorder traversal: " + bst.levelOrder());
             } else if (choice.equals("16")) {
-                bst.setRoot(bst.balance(0, bst.size() - 1));
+                bst.balance();
                 System.out.println("The tree has been balanced");
             } else if (choice.equals("17")) {
                 System.out.println("Fullness ratio is " + bst.fullnessRatio());
