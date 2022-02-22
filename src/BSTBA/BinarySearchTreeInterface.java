@@ -10,5 +10,5 @@ public interface BinarySearchTreeInterface<T> {
     boolean search(T data);
     boolean insert(T data);
     boolean remove(T data);
-    Node<T> balance(int start, int end);
+    void balance();
 }
