@@ -1,7 +1,6 @@
 package trees;
 
 import nodes.Node;
-
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
