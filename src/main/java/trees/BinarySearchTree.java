@@ -208,7 +208,6 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T> {
         return false;
     }
 
-
     /**
      * inOrder Performs an inorder traversal algorithm.
      * @return A StringBuilder containing the inorder contents of the BST nodes.
