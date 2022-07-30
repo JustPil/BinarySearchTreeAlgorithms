@@ -1,6 +1,7 @@
 package trees;
 
 import nodes.Node;
+
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -119,25 +120,24 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T> {
     /**
      * replacement Finds the replacement node to replace a node targeted for removal. The replacement node is copied for
      * a return value and removed from the BST.
-     * @param n The node intended for removal.
+     * @param target The node intended for removal.
      * @return The replacement node.
      */
-    private T replacement(Node<T> n) {
-        Node<T> replace = n;
-        Node<T> deleter = replace;
-        if(n.getLeft() != null) {
-            deleter = replace;
-            replace = replace.getLeft();
+    private T replacement(Node<T> target) {
+        Node<T> parentRef = target;
+        if(target.getLeft() != null) {
+            parentRef = target;
+            target = target.getLeft();
         }
-        while(replace.getRight() != null) {
-            deleter = replace;
-            replace = replace.getRight();
+        while(target.getRight() != null) {
+            parentRef = target;
+            target = target.getRight();
         }
-        T copy = replace.getData();
-        if(deleter.getRight() != null && deleter.getRight().equals(replace)) {
-            deleter.setRight(null);
+        T copy = target.getData();
+        if(parentRef.getRight() != null && parentRef.getRight().equals(target)) {
+            parentRef.setRight(null);
         } else {
-            deleter.setLeft(null);
+            parentRef.setLeft(null);
         }
         return copy;
     }
@@ -207,6 +207,7 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T> {
     public boolean isFull() {
         return false;
     }
+
 
     /**
      * inOrder Performs an inorder traversal algorithm.
