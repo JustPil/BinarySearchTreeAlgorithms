@@ -1,7 +1,6 @@
 package trees;
 
 import nodes.Node;
-
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -60,8 +59,7 @@ public class BinarySearchTree<T> implements BinarySearchTreeInterface<T> {
      */
     public boolean insert(T data) {
         if(root == null) {
-            Node<T> node = new Node<>(data);
-            root = node;
+            root = new Node<>(data);
             nodeCount++;
             return true;
         }
